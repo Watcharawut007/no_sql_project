@@ -7,15 +7,17 @@ from django.contrib.auth.models import User
 from review_production.models import *
 
 from password_generator import PasswordGenerator
-file = open("C:/Users/Be/Desktop/1429_1.csv",encoding="utf8")
-csv = csv.reader(file)
+file = open("C:/Users/peeza/PycharmProjects/djangoProject2/sql_project/scripts/archive/1429_1.csv",encoding="utf8")
 
+csv = csv.reader(file)
 def run():
-    create_user_object()
+    create_product_object_file2()
 def create_dummy_object():
     password = '123'
-
-    User.objects.get(username='dummy',password=password)
+    User.objects.create(username='usertest')
+    user = User.objects.get(username='usertest')
+    user.set_password('12345')
+    user.save()
 def create_user_object():
     password = PasswordGenerator()
     password.excludeschars = "!$%^{}[]()=/"
@@ -43,7 +45,7 @@ def create_product_object():
     for test in csv:
         if not(product.objects.filter(product_name=test[1]).exists()):
             product.objects.create(product_name=test[1],catagories=test[4])
-            
+
 def create_review_object():
     count = 0
     dup = []
@@ -74,7 +76,3 @@ def create_review_object():
             review_count = review_count + 1
         print(count,test[1])
         count = count + 1
-
-
-
-
